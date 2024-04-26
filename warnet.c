@@ -7,16 +7,6 @@
 // 4. Pembelian Makanan: Pelanggan dapat membeli makanan yang tersedia di warnet.
 // 5. Pemilihan Game: Pelanggan dapat memilih game yang ingin dimainkan dari daftar
 // game yang tersedia.
-
-// Fitur untuk Operator Warnet:
-// 1. Instalasi Game: Operator dapat menginstal game baru ke dalam sistem untuk ditawarkan
-//    kepada pelanggan.
-// 2. Manajemen PC: Operator dapat mengawasi dan mengelola penggunaan PC di warnet,
-//    termasuk mengontrol waktu penggunaan.
-// 3. Manajemen Akun: Operator dapat mengelola akun pelanggan, termasuk pendaftaran baru,
-//    pembayaran, dan perpanjangan billing.
-// 4. Penambahan Menu: Operator dapat menambahkan menu baru untuk minuman dan makanan
-//    yang akan dijual di warnet.
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -24,11 +14,11 @@
 int i, choice;
 
 void Pelanggan();
-//void Billing();
-//void LoginPelanggan();
+// void Billing();
+// void LoginPelanggan();
 
-void OP();
-//void MenuOP();
+int OP(int);
+void MenuOP();
 
 void main()
 {
@@ -45,10 +35,12 @@ void main()
         Pelanggan();
         break;
     case 2:
-        OP();
+        getchar();
+        OP(2);
         break;
     case 3:
-        printf("Exiting Program.");
+        system("cls");
+        printf("Exiting Program. . .");
         break;
     default:
         main();
@@ -66,31 +58,91 @@ void Pelanggan()
     switch (choice)
     {
     case 1:
-        //Billing();
+        // Billing();
         break;
     case 2:
-        //LoginPelanggan();
+        // LoginPelanggan();
         break;
     default:
+        printf("Pilihan tidak ditemukan, kembali ke Menu\n");
+        system("pause");
         main();
         break;
     }
 }
 
-void OP()
+int OP(int n)
 {
-    char AID[100], pass[100];
+    char AID[50], pass[50];
     printf("*UI*\n");
-    printf("Admin ID :\n");
+    printf("Admin ID : ");
     gets(AID);
-    printf("Password :\n");
+    printf("Password : ");
     gets(pass);
-    if (strcmp(AID, "xxadminxx123") == 0 && strcmp(pass, "opganteng") == 0)
+    if (strcmp(AID, "admin123") == 0 && strcmp(pass, "opganteng") == 0)
     {
-        //MenuOP();
+        printf("\nLogin Berhasil!\n");
+        system("pause");
+        MenuOP();
+    }
+    else if (n > 0)
+    {
+        printf("\nID atau Password salah.\n");
+        printf("%d kesempatan tersisa.\n\n", n);
+        OP(n - 1);
     }
     else
-        {
-            // gatau something kesempatan or exit program
-        }
+    {
+        printf("\nID atau Password salah.\n");
+        printf("Kembali ke menu utama.\n");
+        system("pause");
+        main();
+    }
+}
+
+// Fitur untuk Operator Warnet:
+// 1. Instalasi Game: Operator dapat menginstal game baru ke dalam sistem untuk ditawarkan
+//    kepada pelanggan.
+// 2. Manajemen PC: Operator dapat mengawasi dan mengelola penggunaan PC di warnet,
+//    termasuk mengontrol waktu penggunaan.
+// 3. Manajemen Akun: Operator dapat mengelola akun pelanggan, termasuk pendaftaran baru,
+//    pembayaran, dan perpanjangan billing.
+// 4. Penambahan Menu: Operator dapat menambahkan menu baru untuk minuman dan makanan
+//    yang akan dijual di warnet.
+
+void MenuOP()
+{
+    system("cls");
+    printf("*UI*\n");
+    printf("1. Install Game\n");
+    printf("2. Manage PC\n");
+    printf("3. Manage Akun\n");
+    printf("4. Add Menu\n");
+    printf("5. Kembali ke Menu Utama\n");
+    printf("Pilih : ");
+    scanf("%d", &choice);
+    switch (choice)
+    {
+    case 1:
+        // Install Game
+        break;
+    case 2:
+        // Manage PC
+        break;
+    case 3:
+        // Manage Akun
+        break;
+    case 4:
+        // Add Menu
+        break;
+    case 5:
+        printf("Kembali ke menu utama.\n");
+        system("pause");
+        main();
+        break;
+    default:
+        printf("Pilihan tidak ditemukan.\n");
+        MenuOP();
+        break;
+    }
 }
