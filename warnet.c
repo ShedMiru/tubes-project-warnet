@@ -1,32 +1,26 @@
-// Fitur untuk Pelanggan Warnet:
-// 1. Pembelian Billing: Pelanggan dapat membeli billing untuk penggunaan
-//    internet di warnet.
-// 2. Login: Pelanggan dapat melakukan login ke dalam sistem untuk mengakses layanan
-//    internet dan fitur lainnya.
-// 3. Pembelian Minuman: Pelanggan dapat membeli minuman yang tersedia di warnet.
-// 4. Pembelian Makanan: Pelanggan dapat membeli makanan yang tersedia di warnet.
-// 5. Pemilihan Game: Pelanggan dapat memilih game yang ingin dimainkan dari daftar
-// game yang tersedia.
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
 
 int i, choice;
 
+// fungsi & void pelanggan
 void Pelanggan();
-// void Billing();
 void LoginPelanggan();
 void regispelanggan();
 void menupelanggan();
 
+// fungsi & void OP
 int OP(int);
 void MenuOP();
 
-struct{
+struct
+{
     char username[100];
     char pass[100];
-}p;
+} p;
 
+// Menu Utama
 void main()
 {
     system("cls");
@@ -55,64 +49,52 @@ void main()
     }
 }
 
+// bagian pelanggan
 void Pelanggan()
 {
     system("cls");
-    int choice2;
     printf("*UI*\n");
-    printf("1. Beli Billing\n");
-    printf("2. Login\n");
-    printf("Pilih : ");
+    printf("1. Login\n");
+    printf("2. Register\n");
+    printf("Pilih: ");
     scanf("%d", &choice);
+
     switch (choice)
     {
     case 1:
-        // Billing();
+        LoginPelanggan();
         break;
     case 2:
-        printf("1. Login\n");
-        printf("2. Register\n");
-        printf("Pilih: ");
-        scanf("%d",&choice2);
-
-        switch(choice2){
-            case 1:
-            LoginPelanggan();
-            break;
-            case 2:
-            regispelanggan();
-            break;
-            default:
-            printf("Pilihan tidak tersedia");
-            system("pause");
-            Pelanggan();
-        }
+        regispelanggan();
         break;
     default:
-        printf("Pilihan tidak ditemukan, kembali ke Menu\n");
+        printf("Pilihan tidak tersedia");
         system("pause");
-        main();
-        break;
+        Pelanggan();
     }
 }
-void regispelanggan(){
+
+void regispelanggan()
+{
     char username[100];
-    FILE *fp=fopen("datapelanggan.dat","ab");
-    FILE *fr=fopen("datapelanggan.dat","rb");
-    lup:
+    FILE *fp = fopen("datapelanggan.dat", "ab");
+    FILE *fr = fopen("datapelanggan.dat", "rb");
+lup:
     system("cls");
     fflush(stdin);
     printf("=======REGISTER=======\n");
     printf("Username: ");
     gets(username);
-    while(fread(&p, sizeof(p),1,fr)){
-        if(strcmp(username,p.username)==0){
+    while (fread(&p, sizeof(p), 1, fr))
+    {
+        if (strcmp(username, p.username) == 0)
+        {
             printf("Username telah dipakai, silahkan pilih username lain\n");
             system("pause");
             goto lup;
         }
     }
-    strcpy(p.username,username);
+    strcpy(p.username, username);
     printf("Password: ");
     gets(p.pass);
     fwrite(&p, sizeof(p), 1, fp);
@@ -123,41 +105,91 @@ void regispelanggan(){
     Pelanggan();
 }
 
-void LoginPelanggan(){
-    char user[100],pass[100];
+void LoginPelanggan()
+{
+    char user[100], pass[100];
     int i;
-    for(i=3;i>0;i--){
-    fflush(stdin);
-    system("cls");
-    printf("=======LOGIN=======\n");
-    printf("Username: ");
-    gets(user);
-    printf("Password: ");
-    gets(pass);
-    if(strcmp(user,p.username)==0 && strcmp(pass,p.pass)==0){
-        printf("LOGIN BERHASIL!!\n");
-        i=0;
-        system("pause");
-        menupelanggan();
-    }
-    else{
-        if(i>1){
-        printf("Username atau password salah, kesempatan sisa %d silahkan coba lagi\n",i-1);
-        system("pause");
-        }
-        else{
-            printf("Kesempatan habis!!\n");
+    for (i = 3; i > 0; i--)
+    {
+        fflush(stdin);
+        system("cls");
+        printf("=======LOGIN=======\n");
+        printf("Username: ");
+        gets(user);
+        printf("Password: ");
+        gets(pass);
+        if (strcmp(user, p.username) == 0 && strcmp(pass, p.pass) == 0)
+        {
+            printf("LOGIN BERHASIL!!\n");
+            i = 0;
             system("pause");
-            main();
+            menupelanggan();
+        }
+        else
+        {
+            if (i > 1)
+            {
+                printf("Username atau password salah, kesempatan sisa %d silahkan coba lagi\n", i - 1);
+                system("pause");
+            }
+            else
+            {
+                printf("Kesempatan habis!!\n");
+                system("pause");
+                main();
+            }
         }
     }
+}
+
+// Fitur untuk Pelanggan Warnet:
+// 1. Pembelian Billing: Pelanggan dapat membeli billing untuk penggunaan
+//    internet di warnet.
+// 2. Login: Pelanggan dapat melakukan login ke dalam sistem untuk mengakses layanan
+//    internet dan fitur lainnya.
+// 3. Pembelian Minuman: Pelanggan dapat membeli minuman yang tersedia di warnet.
+// 4. Pembelian Makanan: Pelanggan dapat membeli makanan yang tersedia di warnet.
+// 5. Pemilihan Game: Pelanggan dapat memilih game yang ingin dimainkan dari daftar
+// game yang tersedia.
+
+void menupelanggan()
+{
+    system("cls");
+    printf("*UI*\n");
+    printf("1. Beli Billing\n");
+    printf("2. Pesan Makanan\n");
+    printf("3. Pesan Minuman\n");
+    printf("4. Games\n");
+    printf("5. Logout\n");
+    printf("Pilih : ");
+    scanf("%d", &choice);
+    switch (choice)
+    {
+    case 1:
+        // Beli Billing
+        break;
+    case 2:
+        // Pesan Makanan
+        break;
+    case 3:
+        // Pesan Minuman
+        break;
+    case 4:
+        // Games
+        break;
+    case 5:
+        printf("Logout dan kembali ke menu utama.\n");
+        system("pause");
+        main();
+        break;
+    default:
+        printf("Pilihan tidak ditemukan.\n");
+        menupelanggan();
+        break;
     }
 }
 
-void menupelanggan(){
-
-}
-
+// Bagian OP
 int OP(int n)
 {
     char AID[50], pass[50];
@@ -205,7 +237,7 @@ void MenuOP()
     printf("2. Manage PC\n");
     printf("3. Manage Akun\n");
     printf("4. Add Menu\n");
-    printf("5. Kembali ke Menu Utama\n");
+    printf("5. Logout\n");
     printf("Pilih : ");
     scanf("%d", &choice);
     switch (choice)
