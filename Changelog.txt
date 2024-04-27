@@ -5,3 +5,8 @@ warnet.c includes main menu, customer login menu, OP login(incomplete).
 4/27/24
 Minor changes in warnet.c
 Added OP Menu.
+Added Registrasi & Login pelanggan by Star.
+
+4/28/24
+Minor changes.
+Added Menu Pelanggan, Beli Billing di pindah ke menu pelanggan.
