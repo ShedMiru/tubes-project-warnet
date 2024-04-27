@@ -9,6 +9,7 @@ void Pelanggan();
 void LoginPelanggan();
 void regispelanggan();
 void menupelanggan();
+void BeliBilling();
 
 // fungsi & void OP
 int OP(int);
@@ -18,7 +19,7 @@ struct
 {
     char username[100];
     char pass[100];
-} p;
+} AkunP;
 
 // Menu Utama
 void main()
@@ -85,19 +86,19 @@ lup:
     printf("=======REGISTER=======\n");
     printf("Username: ");
     gets(username);
-    while (fread(&p, sizeof(p), 1, fr))
+    while (fread(&AkunP, sizeof(AkunP), 1, fr))
     {
-        if (strcmp(username, p.username) == 0)
+        if (strcmp(username, AkunP.username) == 0)
         {
             printf("Username telah dipakai, silahkan pilih username lain\n");
             system("pause");
             goto lup;
         }
     }
-    strcpy(p.username, username);
+    strcpy(AkunP.username, username);
     printf("Password: ");
-    gets(p.pass);
-    fwrite(&p, sizeof(p), 1, fp);
+    gets(AkunP.pass);
+    fwrite(&AkunP, sizeof(AkunP), 1, fp);
     fclose(fp);
     fclose(fr);
     printf("Registrasi Berhasil!!\n");
@@ -118,26 +119,30 @@ void LoginPelanggan()
         gets(user);
         printf("Password: ");
         gets(pass);
-        if (strcmp(user, p.username) == 0 && strcmp(pass, p.pass) == 0)
+
+        FILE *fr = fopen("datapelanggan.dat", "rb");
+        while (fread(&AkunP, sizeof(AkunP), 1, fr))
         {
-            printf("LOGIN BERHASIL!!\n");
-            i = 0;
+            if (strcmp(user, AkunP.username) == 0 && strcmp(pass, AkunP.pass) == 0)
+            {
+                printf("LOGIN BERHASIL!!\n");
+                i = 0;
+                system("pause");
+                menupelanggan();
+            }
+        }
+        fclose(fr);
+
+        if (i > 1)
+        {
+            printf("Username atau password salah, kesempatan sisa %d silahkan coba lagi\n", i - 1);
             system("pause");
-            menupelanggan();
         }
         else
         {
-            if (i > 1)
-            {
-                printf("Username atau password salah, kesempatan sisa %d silahkan coba lagi\n", i - 1);
-                system("pause");
-            }
-            else
-            {
-                printf("Kesempatan habis!!\n");
-                system("pause");
-                main();
-            }
+            printf("Kesempatan habis!!\n");
+            system("pause");
+            main();
         }
     }
 }
@@ -166,7 +171,7 @@ void menupelanggan()
     switch (choice)
     {
     case 1:
-        // Beli Billing
+        BeliBilling();
         break;
     case 2:
         // Pesan Makanan
@@ -185,6 +190,40 @@ void menupelanggan()
     default:
         printf("Pilihan tidak ditemukan.\n");
         menupelanggan();
+        break;
+    }
+}
+
+void BeliBilling()
+{
+    system("cls");
+    printf("\n   Pembelian Billing :");
+    printf("\n       Rp.5000/Jam    \n");
+    printf("\n    Paket Malam Mulai ");
+    printf("\n    Jam 22.00 - 06.00 ");
+    printf("\n     Hanya Rp.30000!  \n");
+    printf("\n1. Beli Perjam");
+    printf("\n2. Paket Malam");
+    printf("\n3. Kembali");
+    printf("\nPilih : ");
+    scanf("%d", &choice);
+    switch (choice)
+    {
+    case 1:
+        /* code */
+        break;
+    case 2:
+        /* code */
+        break;
+    case 3:
+        printf("Kembali ke Menu Pelanggan.");
+        system("pause");
+        menupelanggan();
+        break;
+    default:
+        printf("Pilihan tidak tersedia");
+        system("pause");
+        BeliBilling();
         break;
     }
 }
