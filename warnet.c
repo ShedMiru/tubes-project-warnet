@@ -144,7 +144,7 @@ void LoginPelanggan()
 {
     char user[100], pass[100];
     int i;
-    for (i = 3; i > 1; i--)
+    for (i = 3; i > 0; i--)
     {
         fflush(stdin);
         system("cls");
@@ -161,7 +161,7 @@ void LoginPelanggan()
             {
                 strcpy(CurrentAcc, user);
                 printf("LOGIN BERHASIL!!\n");
-                i = 0;
+                i = -1;
                 system("pause");
                 menupelanggan();
             }
@@ -173,7 +173,7 @@ void LoginPelanggan()
             printf("Username atau password salah, kesempatan sisa %d silahkan coba lagi\n", i - 1);
             system("pause");
         }
-        else
+        else if (i = 0)
         {
             printf("Kesempatan habis!!\n");
             system("pause");
@@ -280,7 +280,7 @@ void Perjam()
     printf("\nBeli Billing? (Y/N)\n    ");
     getchar();
     gets(confirm);
-    fr = fopen("BillingPerjam.dat", "ab");
+    fr = fopen("billingperjam.dat", "ab");
     if (strcasecmp(confirm, "Y") == 0)
     {
         printf("Masukan Nominal pembayaran : ");
@@ -293,7 +293,7 @@ void Perjam()
             strcpy(BillingGame.Acc, CurrentAcc);
             BillingGame.hour = waktu.tm_hour + jam;
             BillingGame.min = waktu.tm_min;
-            fwrite(&BillingGame, sizeof(BillingGame), 1, fp);
+            fwrite(&BillingGame, sizeof(BillingGame), 1, fr);
             printf("\nBilling berhasil dibeli");
             printf("\n*nunjukin waktu bermain*");
         }
@@ -303,22 +303,22 @@ void Perjam()
             strcpy(BillingGame.Acc, CurrentAcc);
             BillingGame.hour = waktu.tm_hour + jam;
             BillingGame.min = waktu.tm_min;
-            fwrite(&BillingGame, sizeof(BillingGame), 1, fp);
+            fwrite(&BillingGame, sizeof(BillingGame), 1, fr);
             printf("\nBilling berhasil dibeli");
             printf("\n*nunjukin waktu bermain*");
         }
         else
         {
             printf("Nominal Tidak Mencukupi, pesanan dibatalkan.");
-            system("Pause");
         }
     }
     else
     {
         printf("Pembelian dibatalkan.");
-        system("pause");
     }
+    system("pause");
     fclose(fr);
+    menupelanggan();
 }
 
 void PM()
@@ -364,7 +364,7 @@ void OrderMakan()
                     printf("Pembayaran Berhasil!");
                     printf("\nTotal Kembalian : %d", kembalian);
                     strcpy(Pesanan.NamaAcc, CurrentAcc);
-                    strcpy(Pesanan.NamaPesanan, Makan.HargaMakan);
+                    strcpy(Pesanan.NamaPesanan, Makan.NamaMakan);
                     fwrite(&Pesanan, sizeof(Pesanan), 1, fp);
                     printf("\nPesanan berhasil dilakukan, silahkan ditunggu.");
                 }
@@ -372,21 +372,19 @@ void OrderMakan()
                 {
                     printf("Pembayaran Berhasil!");
                     strcpy(Pesanan.NamaAcc, CurrentAcc);
-                    strcpy(Pesanan.NamaPesanan, Makan.HargaMakan);
+                    strcpy(Pesanan.NamaPesanan, Makan.NamaMakan);
                     fwrite(&Pesanan, sizeof(Pesanan), 1, fp);
                     printf("\nPesanan berhasil dilakukan, silahkan ditunggu.");
                 }
                 else
                 {
                     printf("Nominal Tidak Mencukupi, pesanan dibatalkan.");
-                    system("Pause");
                 }
                 fclose(fp);
             }
             else
             {
                 printf("Pembelian dibatalkan.");
-                system("pause");
             }
         }
     }
@@ -394,8 +392,8 @@ void OrderMakan()
     {
         printf("\n\tMakanan tidak ditemukan, Order gagal");
         printf("\n\t\tKembali Ke Menu.\n");
-        system("pause");
     }
+    system("pause");
     fclose(fr);
     menupelanggan();
 }
@@ -438,7 +436,7 @@ void OrderMinum()
                     printf("Pembayaran Berhasil!");
                     printf("\nTotal Kembalian : %d", kembalian);
                     strcpy(Pesanan.NamaAcc, CurrentAcc);
-                    strcpy(Pesanan.NamaPesanan, Minum.HargaMinum);
+                    strcpy(Pesanan.NamaPesanan, Minum.NamaMinum);
                     fwrite(&Pesanan, sizeof(Pesanan), 1, fp);
                     printf("\nPesanan berhasil dilakukan, silahkan ditunggu.");
                 }
@@ -446,7 +444,7 @@ void OrderMinum()
                 {
                     printf("Pembayaran Berhasil!");
                     strcpy(Pesanan.NamaAcc, CurrentAcc);
-                    strcpy(Pesanan.NamaPesanan, Minum.HargaMinum);
+                    strcpy(Pesanan.NamaPesanan, Minum.NamaMinum);
                     fwrite(&Pesanan, sizeof(Pesanan), 1, fp);
                     printf("\nPesanan berhasil dilakukan, silahkan ditunggu.");
                 }
