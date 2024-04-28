@@ -1,9 +1,12 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <time.h>
 
 int x, i, choice, money, kembalian;
 char Orderan[100], confirm[100], CurrentAcc[100];
+time_t t;
+struct tm waktu;
 
 // fungsi & void pelanggan
 void Pelanggan();
@@ -14,6 +17,8 @@ void BeliBilling();
 void OrderMakan();
 void OrderMinum();
 void Games();
+void Perjam();
+void PM();
 
 // fungsi & void OP
 int OP(int);
@@ -40,6 +45,12 @@ struct
 {
     char NamaPesanan[100], NamaAcc[100];
 } Pesanan;
+
+struct
+{
+    char Acc[100];
+    int hour, min;
+} BillingGame;
 
 FILE *fp;
 FILE *fr;
@@ -204,7 +215,7 @@ void menupelanggan()
         OrderMinum();
         break;
     case 4:
-        // Games
+        Games();
         break;
     case 5:
         printf("Logout dan kembali ke menu utama.\n");
@@ -235,10 +246,10 @@ void BeliBilling()
     switch (choice)
     {
     case 1:
-        /* code */
+        Perjam();
         break;
     case 2:
-        /* code */
+        PM();
         break;
     case 3:
         printf("Kembali ke Menu Pelanggan.");
@@ -251,6 +262,68 @@ void BeliBilling()
         BeliBilling();
         break;
     }
+}
+
+void Perjam()
+{
+    t = time(NULL);
+    waktu = *localtime(&t);
+    int total, jam;
+    printf("Billing Perjam\n");
+    printf(" Rp.5000/Jam \n");
+    printf("Masukan jumlah Jam yang akan dibeli\n");
+    scanf("%d", &jam);
+    total = jam * 5000;
+    printf("\nRincian Billing");
+    printf("\nJam         : %d", jam);
+    printf("\nTotal harga : Rp.%d", total);
+    printf("\nBeli Billing? (Y/N)\n    ");
+    getchar();
+    gets(confirm);
+    fr = fopen("BillingPerjam.dat", "ab");
+    if (strcasecmp(confirm, "Y") == 0)
+    {
+        printf("Masukan Nominal pembayaran : ");
+        scanf("%d", &money);
+        if (money > Makan.HargaMakan)
+        {
+            kembalian = money - Makan.HargaMakan;
+            printf("Pembayaran Berhasil!");
+            printf("\nTotal Kembalian : %d", kembalian);
+            strcpy(BillingGame.Acc, CurrentAcc);
+            BillingGame.hour = waktu.tm_hour + jam;
+            BillingGame.min = waktu.tm_min;
+            fwrite(&BillingGame, sizeof(BillingGame), 1, fp);
+            printf("\nBilling berhasil dibeli");
+            printf("\n*nunjukin waktu bermain*");
+        }
+        else if (money == Makan.HargaMakan)
+        {
+            printf("Pembayaran Berhasil!");
+            strcpy(BillingGame.Acc, CurrentAcc);
+            BillingGame.hour = waktu.tm_hour + jam;
+            BillingGame.min = waktu.tm_min;
+            fwrite(&BillingGame, sizeof(BillingGame), 1, fp);
+            printf("\nBilling berhasil dibeli");
+            printf("\n*nunjukin waktu bermain*");
+        }
+        else
+        {
+            printf("Nominal Tidak Mencukupi, pesanan dibatalkan.");
+            system("Pause");
+        }
+    }
+    else
+    {
+        printf("Pembelian dibatalkan.");
+        system("pause");
+    }
+    fclose(fr);
+}
+
+void PM()
+{
+    printf("\n*belum ges*");
 }
 
 void OrderMakan()
@@ -283,7 +356,7 @@ void OrderMakan()
             gets(confirm);
             if (strcasecmp(confirm, "Y") == 0)
             {
-                printf("Masukan Nominal Pmebayaran : ");
+                printf("Masukan Nominal pembayaran : ");
                 scanf("%d", &money);
                 if (money > Makan.HargaMakan)
                 {
@@ -309,6 +382,11 @@ void OrderMakan()
                     system("Pause");
                 }
                 fclose(fp);
+            }
+            else
+            {
+                printf("Pembelian dibatalkan.");
+                system("pause");
             }
         }
     }
@@ -352,7 +430,7 @@ void OrderMinum()
             gets(confirm);
             if (strcasecmp(confirm, "Y") == 0)
             {
-                printf("Masukan Nominal Pmebayaran : ");
+                printf("Masukan Nominal pembayaran : ");
                 scanf("%d", &money);
                 if (money > Minum.HargaMinum)
                 {
@@ -379,6 +457,11 @@ void OrderMinum()
                 }
                 fclose(fp);
             }
+            else
+            {
+                printf("Pembelian dibatalkan.");
+                system("pause");
+            }
         }
     }
     if (x != 1)
@@ -393,72 +476,7 @@ void OrderMinum()
 
 void Games()
 {
-    // x = 0;
-    // i = 1;
-    // fr = fopen("ListGames.dat", "rb");
-    // system("cls");
-    // printf("*UI*\n");
-    // printf("List Games :\n");
-    // while (fread(&Game, sizeof(Game), 1, fr) == 1)
-    // {
-    //     printf("\n%d. Nama Games   : %s", i, Game.NamaGame);
-    //     printf("\nHarga          : %d", Game.HargaGame);
-    //     i++;
-    // }
-    // printf("\n   Silahkan masukan nama Game yang akan di order");
-    // printf("\nOrder Game : ");
-    // gets(Orderan);
-    // rewind(fr);
-    // while (fread(&Game, sizeof(Game), 1, fr) == 1)
-    // {
-    //     if (strcmp(Orderan, Game.NamaGame) == 0)
-    //     {
-    //         fp = fopen("ListPesanan.dat", "ab");
-    //         x = 1;
-    //         printf("\nNama Game   : %s", Game.NamaGame);
-    //         printf("\nHarga          : %d", Game.HargaGame);
-    //         printf("\nPesan Game? (Y/N)\n    ");
-    //         gets(confirm);
-    //         if (strcasecmp(confirm, "Y") == 0)
-    //         {
-    //             printf("Masukan Nominal Pmebayaran : ");
-    //             scanf("%d", &money);
-    //             if (money > Game.HargaGame)
-    //             {
-    //                 kembalian = money - Game.HargaGame;
-    //                 printf("Pembayaran Berhasil!");
-    //                 printf("\nTotal Kembalian : %d", kembalian);
-    //                 strcpy(Pesanan.NamaAcc, CurrentAcc);
-    //                 strcpy(Pesanan.NamaPesanan, Game.HargaGame);
-    //                 fwrite(&Pesanan, sizeof(Pesanan), 1, fp);
-    //                 printf("\nPesanan berhasil dilakukan, silahkan ditunggu.");
-    //             }
-    //             else if (money == Game.HargaGame)
-    //             {
-    //                 printf("Pembayaran Berhasil!");
-    //                 strcpy(Pesanan.NamaAcc, CurrentAcc);
-    //                 strcpy(Pesanan.NamaPesanan, Game.HargaGame);
-    //                 fwrite(&Pesanan, sizeof(Pesanan), 1, fp);
-    //                 printf("\nPesanan berhasil dilakukan, silahkan ditunggu.");
-    //             }
-    //             else
-    //             {
-    //                 printf("Nominal Tidak Mencukupi, pesanan dibatalkan.");
-    //                 system("Pause");
-    //                 menupelanggan();
-    //             }
-    //             fclose(fp);
-    //         }
-    //     }
-    // }
-    // if (x != 1)
-    // {
-    //     printf("\n\tMinuman tidak ditemukan, Order gagal");
-    //     printf("\n\t\tKembali Ke Menu.\n");
-    //     system("pause");
-    //     menupelanggan();
-    // }
-    // fclose(fr);
+    printf("\n*belum ges*");
 }
 
 // Bagian OP
@@ -491,6 +509,7 @@ int OP(int n)
     }
 }
 
+// yaudah, nanti praktikan cari alternatif sendiri
 // Fitur untuk Operator Warnet:
 // 1. Instalasi Game: Operator dapat menginstal game baru ke dalam sistem untuk ditawarkan
 //    kepada pelanggan.
