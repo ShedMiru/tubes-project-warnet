@@ -103,7 +103,7 @@ void Pelanggan()
         regispelanggan();
         break;
     default:
-        printf("Pilihan tidak tersedia");
+        printf("Pilihan tidak tersedia\n");
         system("pause");
         Pelanggan();
     }
@@ -252,12 +252,12 @@ void BeliBilling()
         PM();
         break;
     case 3:
-        printf("Kembali ke Menu Pelanggan.");
+        printf("Kembali ke Menu Pelanggan.\n");
         system("pause");
         menupelanggan();
         break;
     default:
-        printf("Pilihan tidak tersedia");
+        printf("Pilihan tidak tersedia.\n");
         system("pause");
         BeliBilling();
         break;
@@ -309,12 +309,12 @@ void Perjam()
         }
         else
         {
-            printf("Nominal Tidak Mencukupi, pesanan dibatalkan.");
+            printf("Nominal Tidak Mencukupi, pesanan dibatalkan.\n");
         }
     }
     else
     {
-        printf("Pembelian dibatalkan.");
+        printf("Pembelian dibatalkan.\n");
     }
     system("pause");
     fclose(fr);
@@ -366,7 +366,7 @@ void OrderMakan()
                     strcpy(Pesanan.NamaAcc, CurrentAcc);
                     strcpy(Pesanan.NamaPesanan, Makan.NamaMakan);
                     fwrite(&Pesanan, sizeof(Pesanan), 1, fp);
-                    printf("\nPesanan berhasil dilakukan, silahkan ditunggu.");
+                    printf("\nPesanan berhasil dilakukan, silahkan ditunggu.\n");
                 }
                 else if (money == Makan.HargaMakan)
                 {
@@ -374,17 +374,17 @@ void OrderMakan()
                     strcpy(Pesanan.NamaAcc, CurrentAcc);
                     strcpy(Pesanan.NamaPesanan, Makan.NamaMakan);
                     fwrite(&Pesanan, sizeof(Pesanan), 1, fp);
-                    printf("\nPesanan berhasil dilakukan, silahkan ditunggu.");
+                    printf("\nPesanan berhasil dilakukan, silahkan ditunggu.\n");
                 }
                 else
                 {
-                    printf("Nominal Tidak Mencukupi, pesanan dibatalkan.");
+                    printf("Nominal Tidak Mencukupi, pesanan dibatalkan.\n");
                 }
                 fclose(fp);
             }
             else
             {
-                printf("Pembelian dibatalkan.");
+                printf("Pembelian dibatalkan.\n");
             }
         }
     }
@@ -438,7 +438,7 @@ void OrderMinum()
                     strcpy(Pesanan.NamaAcc, CurrentAcc);
                     strcpy(Pesanan.NamaPesanan, Minum.NamaMinum);
                     fwrite(&Pesanan, sizeof(Pesanan), 1, fp);
-                    printf("\nPesanan berhasil dilakukan, silahkan ditunggu.");
+                    printf("\nPesanan berhasil dilakukan, silahkan ditunggu.\n");
                 }
                 else if (money == Minum.HargaMinum)
                 {
@@ -446,19 +446,18 @@ void OrderMinum()
                     strcpy(Pesanan.NamaAcc, CurrentAcc);
                     strcpy(Pesanan.NamaPesanan, Minum.NamaMinum);
                     fwrite(&Pesanan, sizeof(Pesanan), 1, fp);
-                    printf("\nPesanan berhasil dilakukan, silahkan ditunggu.");
+                    printf("\nPesanan berhasil dilakukan, silahkan ditunggu.\n");
                 }
                 else
                 {
-                    printf("Nominal Tidak Mencukupi, pesanan dibatalkan.");
-                    system("Pause");
+                    printf("Nominal Tidak Mencukupi, pesanan dibatalkan.\n");
+                    
                 }
                 fclose(fp);
             }
             else
             {
-                printf("Pembelian dibatalkan.");
-                system("pause");
+                printf("Pembelian dibatalkan.\n");
             }
         }
     }
@@ -466,8 +465,8 @@ void OrderMinum()
     {
         printf("\n\tMinuman tidak ditemukan, Order gagal");
         printf("\n\t\tKembali Ke Menu.\n");
-        system("pause");
     }
+    system("Pause");
     fclose(fr);
     menupelanggan();
 }
@@ -550,6 +549,7 @@ void MenuOP()
         break;
     default:
         printf("Pilihan tidak ditemukan.\n");
+        system("Pause");
         MenuOP();
         break;
     }
