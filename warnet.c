@@ -13,6 +13,7 @@ void menupelanggan();
 void BeliBilling();
 void OrderMakan();
 void OrderMinum();
+void Games();
 
 // fungsi & void OP
 int OP(int);
@@ -64,7 +65,7 @@ void main()
         break;
     case 3:
         system("cls");
-        printf("Exiting Program. . .");
+        printf("Exiting Program...");
         break;
     default:
         main();
@@ -220,6 +221,7 @@ void menupelanggan()
 void BeliBilling()
 {
     system("cls");
+    printf("*UI*\n");
     printf("\n   Pembelian Billing :");
     printf("\n       Rp.5000/Jam    \n");
     printf("\n    Paket Malam Mulai ");
@@ -257,6 +259,7 @@ void OrderMakan()
     i = 1;
     fr = fopen("ListMakanan.dat", "rb");
     system("cls");
+    printf("*UI*\n");
     printf("List Makanan :\n");
     while (fread(&Makan, sizeof(Makan), 1, fr) == 1)
     {
@@ -304,7 +307,6 @@ void OrderMakan()
                 {
                     printf("Nominal Tidak Mencukupi, pesanan dibatalkan.");
                     system("Pause");
-                    menupelanggan();
                 }
                 fclose(fp);
             }
@@ -315,9 +317,9 @@ void OrderMakan()
         printf("\n\tMakanan tidak ditemukan, Order gagal");
         printf("\n\t\tKembali Ke Menu.\n");
         system("pause");
-        menupelanggan();
     }
     fclose(fr);
+    menupelanggan();
 }
 
 void OrderMinum()
@@ -326,6 +328,7 @@ void OrderMinum()
     i = 1;
     fr = fopen("ListMinuman.dat", "rb");
     system("cls");
+    printf("*UI*\n");
     printf("List Minuman :\n");
     while (fread(&Minum, sizeof(Minum), 1, fr) == 1)
     {
@@ -373,7 +376,6 @@ void OrderMinum()
                 {
                     printf("Nominal Tidak Mencukupi, pesanan dibatalkan.");
                     system("Pause");
-                    menupelanggan();
                 }
                 fclose(fp);
             }
@@ -384,9 +386,79 @@ void OrderMinum()
         printf("\n\tMinuman tidak ditemukan, Order gagal");
         printf("\n\t\tKembali Ke Menu.\n");
         system("pause");
-        menupelanggan();
     }
     fclose(fr);
+    menupelanggan();
+}
+
+void Games()
+{
+    // x = 0;
+    // i = 1;
+    // fr = fopen("ListGames.dat", "rb");
+    // system("cls");
+    // printf("*UI*\n");
+    // printf("List Games :\n");
+    // while (fread(&Game, sizeof(Game), 1, fr) == 1)
+    // {
+    //     printf("\n%d. Nama Games   : %s", i, Game.NamaGame);
+    //     printf("\nHarga          : %d", Game.HargaGame);
+    //     i++;
+    // }
+    // printf("\n   Silahkan masukan nama Game yang akan di order");
+    // printf("\nOrder Game : ");
+    // gets(Orderan);
+    // rewind(fr);
+    // while (fread(&Game, sizeof(Game), 1, fr) == 1)
+    // {
+    //     if (strcmp(Orderan, Game.NamaGame) == 0)
+    //     {
+    //         fp = fopen("ListPesanan.dat", "ab");
+    //         x = 1;
+    //         printf("\nNama Game   : %s", Game.NamaGame);
+    //         printf("\nHarga          : %d", Game.HargaGame);
+    //         printf("\nPesan Game? (Y/N)\n    ");
+    //         gets(confirm);
+    //         if (strcasecmp(confirm, "Y") == 0)
+    //         {
+    //             printf("Masukan Nominal Pmebayaran : ");
+    //             scanf("%d", &money);
+    //             if (money > Game.HargaGame)
+    //             {
+    //                 kembalian = money - Game.HargaGame;
+    //                 printf("Pembayaran Berhasil!");
+    //                 printf("\nTotal Kembalian : %d", kembalian);
+    //                 strcpy(Pesanan.NamaAcc, CurrentAcc);
+    //                 strcpy(Pesanan.NamaPesanan, Game.HargaGame);
+    //                 fwrite(&Pesanan, sizeof(Pesanan), 1, fp);
+    //                 printf("\nPesanan berhasil dilakukan, silahkan ditunggu.");
+    //             }
+    //             else if (money == Game.HargaGame)
+    //             {
+    //                 printf("Pembayaran Berhasil!");
+    //                 strcpy(Pesanan.NamaAcc, CurrentAcc);
+    //                 strcpy(Pesanan.NamaPesanan, Game.HargaGame);
+    //                 fwrite(&Pesanan, sizeof(Pesanan), 1, fp);
+    //                 printf("\nPesanan berhasil dilakukan, silahkan ditunggu.");
+    //             }
+    //             else
+    //             {
+    //                 printf("Nominal Tidak Mencukupi, pesanan dibatalkan.");
+    //                 system("Pause");
+    //                 menupelanggan();
+    //             }
+    //             fclose(fp);
+    //         }
+    //     }
+    // }
+    // if (x != 1)
+    // {
+    //     printf("\n\tMinuman tidak ditemukan, Order gagal");
+    //     printf("\n\t\tKembali Ke Menu.\n");
+    //     system("pause");
+    //     menupelanggan();
+    // }
+    // fclose(fr);
 }
 
 // Bagian OP
