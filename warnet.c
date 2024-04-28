@@ -2,7 +2,8 @@
 #include <string.h>
 #include <stdlib.h>
 
-int i, choice;
+int x, i, choice, money, kembalian;
+char Orderan[100], confirm[100], CurrentAcc[100];
 
 // fungsi & void pelanggan
 void Pelanggan();
@@ -10,6 +11,8 @@ void LoginPelanggan();
 void regispelanggan();
 void menupelanggan();
 void BeliBilling();
+void OrderMakan();
+void OrderMinum();
 
 // fungsi & void OP
 int OP(int);
@@ -17,9 +20,28 @@ void MenuOP();
 
 struct
 {
-    char username[100];
-    char pass[100];
+    char username[100], pass[100];
 } AkunP;
+
+struct
+{
+    char NamaMakan[100];
+    int HargaMakan;
+} Makan;
+
+struct
+{
+    char NamaMinum[100];
+    int HargaMinum;
+} Minum;
+
+struct
+{
+    char NamaPesanan[100], NamaAcc[100];
+} Pesanan;
+
+FILE *fp;
+FILE *fr;
 
 // Menu Utama
 void main()
@@ -78,8 +100,8 @@ void Pelanggan()
 void regispelanggan()
 {
     char username[100];
-    FILE *fp = fopen("datapelanggan.dat", "ab");
-    FILE *fr = fopen("datapelanggan.dat", "rb");
+    fp = fopen("datapelanggan.dat", "ab");
+    fr = fopen("datapelanggan.dat", "rb");
 lup:
     system("cls");
     fflush(stdin);
@@ -110,7 +132,7 @@ void LoginPelanggan()
 {
     char user[100], pass[100];
     int i;
-    for (i = 3; i > 0; i--)
+    for (i = 3; i > 1; i--)
     {
         fflush(stdin);
         system("cls");
@@ -120,11 +142,12 @@ void LoginPelanggan()
         printf("Password: ");
         gets(pass);
 
-        FILE *fr = fopen("datapelanggan.dat", "rb");
+        fr = fopen("datapelanggan.dat", "rb");
         while (fread(&AkunP, sizeof(AkunP), 1, fr))
         {
             if (strcmp(user, AkunP.username) == 0 && strcmp(pass, AkunP.pass) == 0)
             {
+                strcpy(CurrentAcc, user);
                 printf("LOGIN BERHASIL!!\n");
                 i = 0;
                 system("pause");
@@ -174,10 +197,10 @@ void menupelanggan()
         BeliBilling();
         break;
     case 2:
-        // Pesan Makanan
+        OrderMakan();
         break;
     case 3:
-        // Pesan Minuman
+        OrderMinum();
         break;
     case 4:
         // Games
@@ -226,6 +249,144 @@ void BeliBilling()
         BeliBilling();
         break;
     }
+}
+
+void OrderMakan()
+{
+    x = 0;
+    i = 1;
+    fr = fopen("ListMakanan.dat", "rb");
+    system("cls");
+    printf("List Makanan :\n");
+    while (fread(&Makan, sizeof(Makan), 1, fr) == 1)
+    {
+        printf("\n%d. Nama Makanan   : %s", i, Makan.NamaMakan);
+        printf("\nHarga          : %d", Makan.HargaMakan);
+        i++;
+    }
+    printf("\n   Silahkan masukan nama makanan yang akan di order");
+    printf("\nOrder Makanan : ");
+    gets(Orderan);
+    rewind(fr);
+    while (fread(&Makan, sizeof(Makan), 1, fr) == 1)
+    {
+        if (strcmp(Orderan, Makan.NamaMakan) == 0)
+        {
+            fp = fopen("ListPesanan.dat", "ab");
+            x = 1;
+            printf("\nNama Makanan   : %s", Makan.NamaMakan);
+            printf("\nHarga          : %d", Makan.HargaMakan);
+            printf("\nPesan Makanan? (Y/N)\n    ");
+            gets(confirm);
+            if (strcasecmp(confirm, "Y") == 0)
+            {
+                printf("Masukan Nominal Pmebayaran : ");
+                scanf("%d", &money);
+                if (money > Makan.HargaMakan)
+                {
+                    kembalian = money - Makan.HargaMakan;
+                    printf("Pembayaran Berhasil!");
+                    printf("\nTotal Kembalian : %d", kembalian);
+                    strcpy(Pesanan.NamaAcc, CurrentAcc);
+                    strcpy(Pesanan.NamaPesanan, Makan.HargaMakan);
+                    fwrite(&Pesanan, sizeof(Pesanan), 1, fp);
+                    printf("\nPesanan berhasil dilakukan, silahkan ditunggu.");
+                }
+                else if (money == Makan.HargaMakan)
+                {
+                    printf("Pembayaran Berhasil!");
+                    strcpy(Pesanan.NamaAcc, CurrentAcc);
+                    strcpy(Pesanan.NamaPesanan, Makan.HargaMakan);
+                    fwrite(&Pesanan, sizeof(Pesanan), 1, fp);
+                    printf("\nPesanan berhasil dilakukan, silahkan ditunggu.");
+                }
+                else
+                {
+                    printf("Nominal Tidak Mencukupi, pesanan dibatalkan.");
+                    system("Pause");
+                    menupelanggan();
+                }
+                fclose(fp);
+            }
+        }
+    }
+    if (x != 1)
+    {
+        printf("\n\tMakanan tidak ditemukan, Order gagal");
+        printf("\n\t\tKembali Ke Menu.\n");
+        system("pause");
+        menupelanggan();
+    }
+    fclose(fr);
+}
+
+void OrderMinum()
+{
+    x = 0;
+    i = 1;
+    fr = fopen("ListMinuman.dat", "rb");
+    system("cls");
+    printf("List Minuman :\n");
+    while (fread(&Minum, sizeof(Minum), 1, fr) == 1)
+    {
+        printf("\n%d. Nama Minuman   : %s", i, Minum.NamaMinum);
+        printf("\nHarga          : %d", Minum.HargaMinum);
+        i++;
+    }
+    printf("\n   Silahkan masukan nama Minuman yang akan di order");
+    printf("\nOrder Minuman : ");
+    gets(Orderan);
+    rewind(fr);
+    while (fread(&Minum, sizeof(Minum), 1, fr) == 1)
+    {
+        if (strcmp(Orderan, Minum.NamaMinum) == 0)
+        {
+            fp = fopen("ListPesanan.dat", "ab");
+            x = 1;
+            printf("\nNama Minuman   : %s", Minum.NamaMinum);
+            printf("\nHarga          : %d", Minum.HargaMinum);
+            printf("\nPesan Minuman? (Y/N)\n    ");
+            gets(confirm);
+            if (strcasecmp(confirm, "Y") == 0)
+            {
+                printf("Masukan Nominal Pmebayaran : ");
+                scanf("%d", &money);
+                if (money > Minum.HargaMinum)
+                {
+                    kembalian = money - Minum.HargaMinum;
+                    printf("Pembayaran Berhasil!");
+                    printf("\nTotal Kembalian : %d", kembalian);
+                    strcpy(Pesanan.NamaAcc, CurrentAcc);
+                    strcpy(Pesanan.NamaPesanan, Minum.HargaMinum);
+                    fwrite(&Pesanan, sizeof(Pesanan), 1, fp);
+                    printf("\nPesanan berhasil dilakukan, silahkan ditunggu.");
+                }
+                else if (money == Minum.HargaMinum)
+                {
+                    printf("Pembayaran Berhasil!");
+                    strcpy(Pesanan.NamaAcc, CurrentAcc);
+                    strcpy(Pesanan.NamaPesanan, Minum.HargaMinum);
+                    fwrite(&Pesanan, sizeof(Pesanan), 1, fp);
+                    printf("\nPesanan berhasil dilakukan, silahkan ditunggu.");
+                }
+                else
+                {
+                    printf("Nominal Tidak Mencukupi, pesanan dibatalkan.");
+                    system("Pause");
+                    menupelanggan();
+                }
+                fclose(fp);
+            }
+        }
+    }
+    if (x != 1)
+    {
+        printf("\n\tMinuman tidak ditemukan, Order gagal");
+        printf("\n\t\tKembali Ke Menu.\n");
+        system("pause");
+        menupelanggan();
+    }
+    fclose(fr);
 }
 
 // Bagian OP
