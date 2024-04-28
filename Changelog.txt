@@ -11,3 +11,7 @@ Added Registrasi & Login pelanggan by Star.
 Minor changes.
 Added Menu Pelanggan, Beli Billing di pindah ke menu pelanggan.
 Regis fixed (now able to read dat file), added belibilling func, minor var changes.
+
+4/28/24
+lots of minor changes.
+added ordermakan, orderminum, perjam func.
