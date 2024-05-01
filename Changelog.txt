@@ -15,3 +15,6 @@ Regis fixed (now able to read dat file), added belibilling func, minor var chang
 4/28/24
 lots of minor changes.
 added ordermakan, orderminum, perjam func.
+
+5/2/24, 00:44 AM
+Whole thing's done
