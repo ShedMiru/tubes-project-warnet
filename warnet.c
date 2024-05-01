@@ -1140,7 +1140,7 @@ void changeStatus(int n)
     }
 
     struct Order theOrder;
-
+    
     printf("Enter order number to change status : ");
     scanf("%d", &choice);
 
