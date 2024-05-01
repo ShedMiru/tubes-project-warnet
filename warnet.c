@@ -1138,7 +1138,7 @@ void changeStatus(int n)
         printf("Error opening account file!\n");
         return;
     }
-
+    
     struct Order theOrder;
     
     printf("Enter order number to change status : ");
