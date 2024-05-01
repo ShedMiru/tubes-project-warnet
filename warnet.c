@@ -1125,8 +1125,6 @@ void seeOrder()
         system("pause");
         fflush(stdin);
     }
-
-    fclose(orderFile);
 }
 
 void changeStatus(int n)
