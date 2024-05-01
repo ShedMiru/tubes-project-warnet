@@ -52,7 +52,7 @@ struct Food
 
 struct Order
 {
-    char OrderName[100], AccName[100], orderstatus[100];
+    char OrderName[100], AccName[100], orderStatus[100];
 };
 
 // Struct untuk data PC
@@ -102,6 +102,7 @@ int main()
     fclose(installPc);
     fclose(accountFile);
     fclose(foodFile);
+    fclose(orderFile);
 
     system("cls");
     printf("===============================================================|-|%c|x|\n", 254);
@@ -277,7 +278,7 @@ void LoginPelanggan()
             printf("Username atau password salah, kesempatan sisa %d silahkan coba lagi\n", i - 1);
             system("pause");
         }
-        else if (i = 0)
+        else if (i = 1)
         {
             printf("Kesempatan habis!!\n");
             system("pause");
@@ -423,7 +424,7 @@ void orderPayment()
                     }
                     strcpy(theOrder.AccName, CurrentAcc);
                     strcpy(theOrder.OrderName, goods.name);
-                    strcpy(theOrder.orderstatus, "Waiting for staff");
+                    strcpy(theOrder.orderStatus, "Waiting for staff");
                     fwrite(&theOrder, sizeof(struct Order), 1, orderFile);
                     printf("\nPesanan berhasil dilakukan, silahkan ditunggu.\n");
                 }
@@ -462,7 +463,10 @@ void seeStatus()
     printf("No.| Name\t|Status\n");
     while (fread(&orderlist, sizeof(struct Order), 1, orderFile))
     {
-        printf(" %d |%s\t%s\n", ++count, orderlist.OrderName, orderlist.orderstatus);
+        if (strcmp(orderlist.AccName, CurrentAcc) == 0)
+        {
+            printf(" %d |%s\t%s\n", ++count, orderlist.OrderName, orderlist.orderStatus);
+        }
     }
     fclose(orderFile);
     system("pause");
@@ -1091,7 +1095,7 @@ void seeOrder()
     printf("No.| Name\t|Status\n");
     while (fread(&orderlist, sizeof(struct Order), 1, orderFile))
     {
-        printf(" %d |%s\t%s\t%s\n", ++count, orderlist.OrderName, orderlist.AccName, orderlist.orderstatus);
+        printf(" %d |%s\t%s\t%s\n", ++count, orderlist.OrderName, orderlist.AccName, orderlist.orderStatus);
     }
     fclose(orderFile);
 
@@ -1149,14 +1153,13 @@ void changeStatus(int n)
         {
             if (n == 1)
             {
-                strcpy(theOrder.orderstatus, "Ongoing");
-                x = 1;
+                strcpy(theOrder.orderStatus, "Ongoing");
             }
             else if (n == 2)
             {
-                strcpy(theOrder.orderstatus, "Completed");
-                x = 1;
+                strcpy(theOrder.orderStatus, "Completed");
             }
+            x = 1;
         }
         fwrite(&theOrder, sizeof(struct Order), 1, tempFile);
     }
@@ -1175,4 +1178,5 @@ void changeStatus(int n)
     remove("order.dat");
     rename("temp.dat", "order.dat");
     system("pause");
+    MenuOP();
 }
