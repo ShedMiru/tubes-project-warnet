@@ -18,3 +18,6 @@ added ordermakan, orderminum, perjam func.
 
 5/2/24, 00:44 AM
 Whole thing's done
+
+5/2/24, 01:15 AM
+minor changes
